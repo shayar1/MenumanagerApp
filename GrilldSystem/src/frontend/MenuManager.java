@@ -39,8 +39,14 @@ public class MenuManager {
 
     public void removeMenuItem(String name) {
         MenuItem item = getItemByName(name);
-        menu.remove(item);
-        System.out.println(name + " removed from the menu.");
+
+        // ✅ Review fix: Added null check before removing item – Suggested by Sonam
+        if (item != null) {
+            menu.remove(item);
+            System.out.println(name + " removed from the menu.");
+        } else {
+            System.out.println("Item not found.");
+        }
     }
 
     public void updateMenuItem(String name, String newName, Double newPrice) {
