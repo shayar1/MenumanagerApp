@@ -1,0 +1,79 @@
+package menuManagerApp;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        MenuManager manager = new MenuManager();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n===== Menu Management System =====");
+            System.out.println("1. Add Item");
+            System.out.println("2. View All Items");
+            System.out.println("3. Search Item by Name");
+            System.out.println("4. Update Availability");
+            System.out.println("5. Delete Item");
+            System.out.println("6. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Category: ");
+                    String category = scanner.nextLine();
+                    System.out.print("Enter Price: ");
+                    double price = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.print("Is Available (true/false): ");
+                    boolean available = scanner.nextBoolean();
+
+                    MenuItem item = new MenuItem(id, name, category, price, available);
+                    manager.addItem(item);
+                    break;
+                case 2:
+                    manager.displayAllItems();
+                    break;
+                case 3:
+                    System.out.print("Enter name to search: ");
+                    String searchName = scanner.nextLine();
+                    MenuItem foundItem = manager.searchItemByName(searchName);
+                    if (foundItem != null) {
+                        System.out.println("Found: " + foundItem);
+                    } else {
+                        System.out.println("Item not found.");
+                    }
+                    break;
+                case 4:
+                    System.out.print("Enter item ID to update availability: ");
+                    int updateId = scanner.nextInt();
+                    System.out.print("Set available? (true/false): ");
+                    boolean newAvailability = scanner.nextBoolean();
+                    boolean updated = manager.updateItemAvailability(updateId, newAvailability);
+                    System.out.println(updated ? "Updated successfully." : "Item not found.");
+                    break;
+                case 5:
+                    System.out.print("Enter item ID to delete: ");
+                    int deleteId = scanner.nextInt();
+                    boolean deleted = manager.deleteItem(deleteId);
+                    System.out.println(deleted ? "Deleted successfully." : "Item not found.");
+                    break;
+                case 6:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+
+        scanner.close();
+    }
+}
